@@ -72,17 +72,41 @@ For example, "configurable smart contract templates" certainly have the value of
 
 There is also the "expression language", and although it may be difficult to implement this feature perfectly(the implementation priority can be lower) - for example, it requires developing compilers to compile the codes written in this expression language into intermediate codes that can be executed by the virtual machines(EVM, MoveVM, etc.) of each chain - with it, developers can use only this "expression language" to write business logic, and the developed application can run directly on different chains. There is no need to learn and use each chain's programming language, which greatly saves the cost of application development and porting.
 
-## Who we are
-
-"Why can you do it?"
-
-TBD...
-
 ## Technology architecture overview
 
-### What makes our platform so unique and powerful
+"Model-driven development" is the core feature of low-code development platforms.
+
+As mentioned earlier, the traditional models used by low-code platforms for enterprise applications are relational and/or ER models; We choose the DDD([Domain-Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design)) style domain models, which makes our platform so unique and powerful.
+
+### The key is the modeling paradigm
+
+The DDD domain models are OO(object-oriented) models in a relatively high level of abstraction.
+
+![Mappings Between Models](MappingsBetweenModels.jpeg)
+
+Mapping from the higher abstraction level DDD domain models to the lower abstraction level implementation object models(OO is the dominant paradigm for programming languages), relational models(the dominant paradigm for database models), etc. is relatively easy and can often be done by automated tools.
+
+Mapping low-level models to each other is relatively difficult and often requires developers to step in and even write a lot of implementation codes.
+Developers familiar with the ORM(Object-Relational Mapping) frameworks can easily understand this.
+
+### Domain models as the core
+
+
 
 TBD...
+
+## Who we are
+
+"Theoretically you are all right, but why can you do it?"
+
+Because, "using DDD-style domain models to drive development" is really the thing we've done in the Web 2.0 era!
+
+Even when implementing a low-code platform for developing traditional enterprise applications, using DDD-style domain models to drive development is a very bold and innovative move.
+
+But the path is through, we have had a lot of valuable experience accumulated.
+
+TBD...
+
 
 ## Proof of concept: a demo domain name system
 
