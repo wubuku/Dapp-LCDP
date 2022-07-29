@@ -65,6 +65,12 @@ In the first step(already done), we manually write the codes for the implementat
 
 In the second step(to be completed), we will create code generation tools to templatize the codes in part 2 above. We can then remove the part 2 codes described above, regenerate these codes from the models(plus the code templates), and the application should compile and run properly.
 
+It should be noted that although we have not yet completed the second step, any experienced developer can conclude with certainty by reading the source codes we completed in the first step: the real business logic codes (which do need to be written by developers) are very limited, and 90% of the source codes are boilerplate codes that can be generated from the models.
+
+#### Source code of the demo
+
+The source code for the demo is available here [GitHub repository](https://github.com/wubuku/StarcoinNSDemo).
+
 
 ### Features of the demo domain name system
 
@@ -73,6 +79,16 @@ To make the proof of concept in the limited time available, we have dreamed up s
 * Support domain name registration and renewal. Submitting a domain name registration transaction requires a Non-Membership Proof of domain name state to be input to the contract on the chain; submitting a renewal transaction requires a Membership Proof of domain name state to be input.
 
 * Only second-level domains need to be supported. This is to demonstrate the case where the entity ID is not a "primitive type", but a "complex" value object with two fields.
+
+### Architecture of the demo system
+
+The demo domain system consists of three parts.
+
+![Demo Domain Name System Architecture](DemoDomainNameSysArch.jpeg)
+
+- Client. Before submitting a transaction to the on-chain contracts, the client requests the off-chain service to get the state of the entity (domain name) and its proof of state.
+- On-chain contracts. The on-chain contracts do not store the "current state" of all domain names, but only the SMT Root of all domain names. when the on-chain contract executes a transaction, it first verifies the state and the proof of state submitted by the client, and then executes the business logic and updates the SMT Root.
+- Off-chain service. The off-chain service constructs the "current state" of all domains in the local database by pulling events from the chain. Anyone can run an instance of the off-chain service and cannot do evil (falsify state information), which ensures the decentralization of the system.
 
 
 ## Key risks
