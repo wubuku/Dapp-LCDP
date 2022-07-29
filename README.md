@@ -7,7 +7,7 @@ English | [中文](README_CN.md)
 
 ## What we want to do
 
-A **true** Low-code development platform (LCDP) that helps developers build decentralized applications ( Dapps ) that maximize the use of blockchains as technical infrastructure.
+A **true** Low-code development platform(LCDP) that helps developers build decentralized applications(Dapps) that maximize the use of blockchains as technical infrastructure.
 
 A low-code development platform that allows developers to build extremely complex decentralized applications with experiences that are very close to developing "traditional" applications.
 
@@ -23,21 +23,64 @@ Here we think it is necessary to clarify the difference between "low-code" and "
 
 We believe that a true low-code development platform should have the following key features.
 
-* **Model driven** development. These models should ideally be "domain models" that are as far from "technology" and as close to "business" as possible. Because "communication" is the biggest cost in complex software development - even if the low-code platform is for developers and the "no-code" is for end users (business people).
+* **Model driven** development. These models should ideally be "domain models" that are as far from "technology" and as close to "business" as possible. Because "communication" is the biggest cost in complex software development - even if the low-code platform is for developers and the "no-code" is for end users(business people).
 
-* **Visual Development**. Visual modeling tools are an important part of the visual development toolbox for low-code platforms. However, it should be noted that if the modeling tool can save the model as a well-readable plain text, then the specification of this text is actually a DSL (domain-specific language), and such a DSL can actually be written manually by the developer (without the help of a visual modeling tool).
+* **Visual Development**. Visual modeling tools are an important part of the visual development toolbox for low-code platforms. However, it should be noted that if the modeling tool can save the model as a well-readable plain text, then the specification of this text is actually a DSL(domain-specific language), and such a DSL can actually be written manually by the developer(without the help of a visual modeling tool).
 
-* Support the use of **expression languages**. An expression language should be simpler and easier to write business logic in than the general-purpose language (GPL). It should be functional programming style; it should be as declarative as possible - that is, for expressing "what is wanted" rather than "how it is done".
+* Support the use of **expression languages**. An expression language should be simpler and easier to write business logic in than the general-purpose language(GPL). It should be functional programming style; it should be as declarative as possible - that is, for expressing "what is wanted" rather than "how it is done".
 
 * **Systematic software engineering support**. The low-code platform should integrate best practices in the areas of software engineering including development, debug, testing, version control, DevOps, etc.
 
 * **Applications are open to integration and are extensible**. Applications developed by low-code platforms should have open APIs as well as the ability to use external APIs and be extensible using general-purpose languages.
 
+
+## Current state of low-code development platforms
+
+When we look at traditional low-code development platforms for enterprise applications in the Web 2.0 era according to the above criteria for "true" low-code, there are relative leaders.
+
+![Magic Quadrant for Traditional LCDPs](TraditionalLCDPsMagicQuadrant.png)
+
+So, by the time of Web 3.0, the existing Dapp low-code platforms(if they exist at all), are there any very capable ones?
+
+Unfortunately, by the rigorous "true" low-code criteria described above, we have not yet seen the existence of such a Dapp low-code platform.
+
+"Is it so hard? Why don't they do it?"
+
+### The “Model-driven” of enterprise application LCDPs
+
+Traditional enterprise application development platforms(including low-code platforms) are basically "driven" by the E-R(Entity-Relationship) models and/or relational models(the models used in SQL databases).
+
+For example, see how OutSystems does it?
+
+!["Model Driven" Of OutSystems](ModelDrivenOfOutSystems.png)
+
+OutSystems uses both E-R models and relational(data) models; some enterprise application development platforms use only one or the other.
+
+There is a fairly direct correspondence between the concepts used by the E-R models and the relational models, so their modeling results(the generated codes) can easily run on the traditional enterprise software technology infrastructures - SQL databases.But it's hard for them to run on brand new technology infrastructures such as blockchains - where the dominant smart contract platforms and "decentralized ledgers" are constructed too far from traditional SQL databases.
+
+Clearly, the development of a "true" low-code platform requires long-term accumulation of skills and experience, and the technology routes used in traditional enterprise application low-code platforms make them difficult to be ported to the entirely new space of Dapp development.
+
+As for the existing Dapp "low-code" platforms, "They don't have those features, but then what does it matter?"
+
+### The importance of core values
+
+> Never forget the original intention, the only way to get to the end.
+
+A platform's potential is determined by its "core values". The core features expected of a professional low-code platform, such as model-driven, expression language, have values that are difficult to replace with other solutions that try to "bypass" them.
+
+For example, "configurable smart contract templates" certainly have the value of improving the efficiency of developers copying, pasting, and modifying "readymade codes" - if indeed There are "readymade codes". If a developer wants to make some innovative applications and there are no readymade "smart contract templates" available, then it won't be helpful; when multiple chains need to be supported, it is also a big burden for platform developers to write and maintain such a library of "smart contract templates" in different languages(Solidity, Move, etc.) for different chains. Moreover, "smart contracts" are often only the on-chain part of a application, and decentralized applications often require off-chain parts as well.
+
+There is also the "expression language", and although it may be difficult to implement this feature perfectly(the implementation priority can be lower) - for example, it requires developing compilers to compile the codes written in this expression language into intermediate codes that can be executed by the virtual machines(EVM, MoveVM, etc.) of each chain - with it, developers can use only this "expression language" to write business logic, and the developed application can run directly on different chains. There is no need to learn and use each chain's programming language, which greatly saves the cost of application development and porting.
+
 ## Who we are
+
+"Why can you do it?"
 
 TBD...
 
 ## Technology architecture overview
+
+### What makes our platform so unique and powerful
 
 TBD...
 
@@ -49,7 +92,7 @@ In the grand scheme of things, we are actually trying to explore a development m
 
 This is obviously a very challenging goal. Because different blockchains have different characteristics, can our low-code platform be designed to effectively meet the challenges posed by the diversity of technical infrastructures? We certainly have great confidence in this, and we will demonstrate this by developing a demo domain system.
 
-We know that Move (Move VM) did not have a data structure like Solidity(EVM)'s `Mapping` before; even if Move will support `Table`(`Mapping`) next, it should not be abused.
+We know that Move(Move VM) did not have a data structure like Solidity(EVM)'s `Mapping` before; even if Move will support `Table`(`Mapping`) next, it should not be abused.
 
 The abuse of Mapping can cause the so-called blockchain state explosion problem. It is not a recommended practice to store large amounts of state data in Mapping on the L1 chain; they should be stored off-chain(outside the L1 chain), but at the same time they need to be verifiable and usable on-chain.
 
@@ -65,7 +108,7 @@ In the first step(already done), we manually write the codes for the implementat
 
 In the second step(to be completed), we will create code generation tools to templatize the codes in part 2 above. We can then remove the part 2 codes described above, regenerate these codes from the models(plus the code templates), and the application should compile and run properly.
 
-It should be noted that although we have not yet completed the second step, any experienced developer can conclude with certainty by reading the source codes we completed in the first step: the real business logic codes (which do need to be written by developers) are very limited, and 90% of the source codes are boilerplate codes that can be generated from the models.
+It should be noted that although we have not yet completed the second step, any experienced developer can conclude with certainty by reading the source codes we completed in the first step: the real business logic codes(which do need to be written by developers) are very limited, and 90% of the source codes are boilerplate codes that can be generated from the models.
 
 #### Source code of the demo
 
@@ -86,10 +129,13 @@ The demo domain system consists of three parts.
 
 ![Demo Domain Name System Architecture](DemoDomainNameSysArch.jpeg)
 
-- Client. Before submitting a transaction to the on-chain contracts, the client requests the off-chain service to get the state of the entity (domain name) and its proof of state.
+- Client. Before submitting a transaction to the on-chain contracts, the client requests the off-chain service to get the state of the entity(domain name) and its proof of state.
 - On-chain contracts. The on-chain contracts do not store the "current state" of all domain names, but only the SMT Root of all domain names. when the on-chain contract executes a transaction, it first verifies the state and the proof of state submitted by the client, and then executes the business logic and updates the SMT Root.
-- Off-chain service. The off-chain service constructs the "current state" of all domains in the local database by pulling events from the chain. Anyone can run an instance of the off-chain service and cannot do evil (falsify state information), which ensures the decentralization of the system.
+- Off-chain service. The off-chain service constructs the "current state" of all domains in the local database by pulling events from the chain. Anyone can run an instance of the off-chain service and cannot do evil(falsify state information), which ensures the decentralization of the system.
 
+### Portability of the demo system
+
+Although we used the Move language(based on the Starcoin chain) for the proof-of-concept, it shows that it is also possible to use Solidity(based on Ethereum or other EVM-compatible chains), since Solidity also supports `struct` and Ethereum also provides event/log mechanisms. That is, the features of the Move language and the Starcoin chain that this proof-of-concept demo utilizes are also available on Ethereum.
 
 ## Key risks
 
