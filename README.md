@@ -91,9 +91,23 @@ Developers familiar with the ORM(Object-Relational Mapping) frameworks can easil
 
 ### Domain models as the core
 
+The idea is that there should be a domain modeling language that can be used to accurately describe key concepts in the domain; the domain models described by this language can be used as the basis for communication across the application development team(both technical and domain experts) and should be conveniently mapped to the code implementation of the application.
 
+This language should be a DSL that can be adopted by visualization tools as well as easy for humans to read and write.
 
-TBD...
+With the domain model described by this DSL as the core, we make a tool chain to generate implementation codes for various parts of the application from the model and then run the application on various technical infrastructures.
+
+![Domain Models As the Core](DomainModelsAsTheCore.png)
+
+### Domain-Driven Design Modeling Language(DDDML)
+
+The question is whether we can find such a language as described above?
+
+Fortunately we have found it - DDDML(Domain-Driven Design Modeling Language); more precisely, we invented it.
+
+Eric Evans, founder of Domain-Driven Design, has said that he has always believed that DSL is the next big step in the evolution of domain-driven design.
+
+DDDML takes this big solid step forward. You will see this in what follows.
 
 ## Who we are
 
@@ -107,12 +121,15 @@ But the path is through, we have had a lot of valuable experience accumulated.
 
 TBD...
 
+That is, we have completed the construction of a complete theoretical system of key technologies that we have successfully put into practice; more than that, we have done a preliminary proof of concept on how to apply these experiences to the development of Dapps - as we will demonstrate in a demo system below.
+
+TBD...
 
 ## Proof of concept: a demo domain name system
 
 ###  The purpose of the demo
 
-In the grand scheme of things, we are actually trying to explore a development model that would significantly lower the barrier for traditional application developers to enter the Dapp space. The ideal "very low barrier" would be something like this: developers would only need to build domain models and write (pure) business logic codes. These codes should be able to migrate between different technical infrastructures such as L1 blockchain/L2 blockchain, on-chain/off-chain, centralized database/decentralized ledgers, etc. without requiring developers to manually modify them.
+In the grand scheme of things, we are actually trying to explore a development model that would significantly lower the barrier for traditional application developers to enter the Dapp space. The ideal "very low barrier" would be something like this: developers would only need to build domain models and write(pure) business logic codes. These codes should be able to migrate between different technical infrastructures such as L1 blockchain/L2 blockchain, on-chain/off-chain, centralized database/decentralized ledgers, etc. without requiring developers to manually modify them.
 
 This is obviously a very challenging goal. Because different blockchains have different characteristics, can our low-code platform be designed to effectively meet the challenges posed by the diversity of technical infrastructures? We certainly have great confidence in this, and we will demonstrate this by developing a demo domain system.
 
