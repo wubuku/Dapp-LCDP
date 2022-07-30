@@ -291,14 +291,131 @@ public fun mutate(
 * verify 函数验证客户端提交的交易参数，如果验证通过，返回“事件”的属性。事件会被 DomainNameAggregate emit 出来（使用“廉价”的链上事件存储而不是昂贵的状态存储）。
 * mutate 应该是个纯函数，接受事件参数，返回“修改”后的（这里指新创建的）域名状态。
 
+需要开发人员手写“域名续费”的业务逻辑大致如下：
 
+```Move
+address 0x18351d311d32201149a4df2a9fc2db8a {
+module DomainNameRenewLogic {
+//…
+
+public fun verify(
+    account: &signer,
+    _domain_name_state: &DomainName::DomainNameState,
+    renew_period: u64,
+): (
+    address, // Account
+    u64, // RenewPeriod
+) {
+    let amount = Account::withdraw<STC::STC>(account, 1000000);
+    Account::deposit(DomainName::genesis_account(), amount);
+    let e_account = Signer::address_of(account);
+    let e_renew_period = renew_period;
+    (e_account, e_renew_period)
+}
+
+public fun mutate(
+    domain_name_state: &DomainName::DomainNameState,
+    _account: address,
+    renew_period: u64,
+): DomainName::DomainNameState {
+    let updated_domain_name_state = DomainName::new_domain_name_state(
+        &DomainName::get_domain_name_state_domain_name_id(domain_name_state),
+        DomainName::get_domain_name_state_expiration_date(domain_name_state) + renew_period,
+        DomainName::get_domain_name_state_owner(domain_name_state),
+    );
+    updated_domain_name_state
+}
+```
+
+* 与域名注册的两个函数相比这两个函数有一点区别。由于域名续费是对一个已有的域名执行续费，所以在输入参数列表中有表示旧状态的参数。
+* mutate 方法接收旧状态和事件数据并返回新状态。
+
+---
+
+以上，就是**所有**需要手写的代码：一个模型文件、两个业务逻辑代码文件！
+
+### 应该由工具自动完成的工作
+
+#### 链下服务的代码
+
+Demo 系统的链下服务的代码是使用 Go 编写的。项目的目录和文件结构见下：
+
+```txt
+./off-chain-service
+├── README.md
+├── client # 域名系统的 Client Go SDK
+│   ├── client.go
+│   └── client_test.go # 单元测试代码
+├── contract # 链上合约的查询接口
+│   ├── contract.go
+│   └── contract_test.go # contract 包的单元测试代码
+├── db
+│   ├── bcs.go # 数据模型的 BCS 序列化/反序列化代码
+│   ├── db.go # 数据库常量和接口代码
+│   ├── db_test.go # db 包的单元测试代码
+│   ├── models.go # 数据模型，DomainNameId、DomainNameEvent 等
+│   ├── mysqldb.go # 数据访问层的 MySQL 实现
+│   └── smt_test.go # 关于 SMT 的单元测试代码
+├── events
+│   ├── events_test.go # 单元测试代码
+│   ├── lib.go # 从 serde-format/events.yaml 生成的事件结构和 BCS 序列化/反序列化代码
+│   └── libext.go # 对 SerdeGen 工具生成的事件代码做的一些扩展
+├── go.mod
+├── go.sum
+├── handlers.go # 使用 Gin 实现 RESTful API 的 handlers，依赖 starcoinmanager.go
+├── main.go # 链下服务的程序入口
+├── manager
+│   ├── starcoinmanager.go # 拉取链上事件、更新链下状态，监控和处理链的分叉等
+│   └── starcoinmanager_test.go # 单元测试代码
+├── serde-format
+│   └── events.yaml # 描述链上事件的格式的 YAML 文档，SerdeGen 工具可使用它们生成代码
+├── tools # 一些工具类代码
+│   ├── restclient.go # REST client 代码
+│   ├── starcoinutil.go # 对 Starcoin Go SDK 做的一些包装和扩展
+│   └── util.go # 其他工具类代码
+├── transactions # （改变链上状态的）链上交易相关的代码
+│   ├── lib.go # （改变链上状态的）链上交易的编码方法
+│   ├── transactions_test.go # 单元测试代码
+│   └── util.go # 一些关于链上交易的工具代码
+└── vo
+    └── vo.go # RESTful API 使用的参数和返回值的类型（View Objects）
+```
+
+- 定时任务和 RESTful API 的实现可以从这里看起： starcoinmanager.go
+- 仔细审视这些代码，我们可以发现：**所有**（整个链下服务的）代码其实都是可以由模型（DSL）生成的。
+
+#### 各种客户端 SDK、前端应用以及更多
 
 【TBD】
 
-### Demo 的可移植性
+### Demo 的结论
 
-虽然我们是使用 Move 语言（基于 Starcoin 链）进行的验证，但说明使用 Solidity（基于以太坊或其他 EVM 兼容链）也是可行的，因为 Solidity 也同样支持结构体，以太坊同样支持事件/日志机制。也就是说，这个概念验证的 demo 所利用的 Move 语言和 Starcoin 链的特性，在以太坊上都有。
+我们对这个 Demo 系统的代码行数做了一个粗略的统计如下：
 
+```txt
+github.com/AlDanial/cloc v 1.92  T=0.08 s (604.0 files/s, 97263.5 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Go                              24            459            390           4374
+Move                            12            255            225           1323
+JSON                             3              0              0            509
+Markdown                         2             58              0            211
+XML                              5              0              0            118
+YAML                             2              5              0             66
+TOML                             2             24              0             34
+-------------------------------------------------------------------------------
+SUM:                            50            801            615           6635
+-------------------------------------------------------------------------------
+```
+
+【TBD】
+
+通过这个 Demo，我们可以得出大致结论如下：
+
+* Demo 揭示了我们提倡的低代码开发模式可以高效地地开发运行在不同的链上的 Dapp。虽然我们是使用 Move 语言（基于 Starcoin 链）进行的验证，但说明使用 Solidity（基于以太坊或其他 EVM 兼容链）也是可行的，因为 Solidity 也同样支持结构体，以太坊同样支持事件/日志机制。也就是说，这个概念验证的 demo 所利用的 Move 语言和 Starcoin 链的特性，在以太坊上都有。
+
+【TBD】
 
 ## 关键风险
 
