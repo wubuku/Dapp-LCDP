@@ -115,15 +115,17 @@ DDDML takes this big solid step forward. You will see this in what follows.
 
 Because, "using DDD-style domain models to drive development" is really the thing we've done in the Web 2.0 era!
 
-Even when implementing a low-code platform for developing traditional enterprise applications, using DDD-style domain models to drive development is a very bold and innovative move.
+Even when implementing a low-code platform for developing traditional enterprise applications, using DDD-style domain models to drive development is a very bold and innovative move. But the path is through, we have had a lot of valuable experience accumulated. We even published a thick monograph to share the lessons learned with developers.
 
-But the path is through, we have had a lot of valuable experience accumulated.
+Here it is necessary to highlight the architect of our project: Jiefeng Yang.
 
-TBD...
+Mr. Yang has more than 20 years of software development experience, and is a well-deserved DDD expert, the creator of DDDML, and the author of the technical book "[Deep into DDD: Driving Complex Software Development by DSL](https://item.jd.com/12834017.html)".
+
+It is in the book "Deep into DDD" that we details the design of DDDML, the native DSL for DDD, and its related development tool chain, and how to use them to solve various aches in complex software development process. This well-received bestseller was published in April 2021 and reprinted in September of the same year.
+
+![The Book "Deep into DDD"](TheBookDeepIntoDDD.png)
 
 That is, we have completed the construction of a complete theoretical system of key technologies that we have successfully put into practice; more than that, we have done a preliminary proof of concept on how to apply these experiences to the development of Dapps - as we will demonstrate in a demo system below.
-
-TBD...
 
 ## Proof of concept: a demo domain name system
 
