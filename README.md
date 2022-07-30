@@ -2,16 +2,15 @@
 
 English | [中文](README_CN.md)
 
-
 [ToC]
 
 ## What we want to do
 
 A **true** Low-code development platform(LCDP) that helps developers build decentralized applications(Dapps) that maximize the use of blockchains as technical infrastructure.
 
-A low-code development platform that allows developers to build extremely complex decentralized applications with experiences that are very close to developing "traditional" applications.
+A low-code development platform that allows developers to build extremely complex decentralized applications with experiences that are very close to developing "traditional" applications. Many developers of "traditional" applications have already established deep insights into various domains and have no lack of software development experiences, and they are eager to utilize their talent and intelligence in the decentralized world as soon as possible.
 
-In the initial phase, the platform will prioritize support for building Dapps running on the Move public blockchain.
+We know things can't be done overnight. In the initial phase, the platform will prioritize support for building Dapps running on the Move public blockchain.
 
 In the longer term, the platform does not restrict developers to use any programming language to build Dapps, allowing them to focus on the implementation of the "business logic". Thus, developers of "traditional" applications can more easily enjoy the dividends of blockchain development; while "traditional" enterprise software and Web 2.0 Internet applications, which are already highly complex, can be migrated onto blockchains at low cost and become decentralized Web 3.0 applications.
 
@@ -175,6 +174,125 @@ The demo domain system consists of three parts.
 - Client. Before submitting a transaction to the on-chain contracts, the client requests the off-chain service to get the state of the entity(domain name) and its proof of state.
 - On-chain contracts. The on-chain contracts do not store the "current state" of all domain names, but only the SMT Root of all domain names. when the on-chain contract executes a transaction, it first verifies the state and the proof of state submitted by the client, and then executes the business logic and updates the SMT Root.
 - Off-chain service. The off-chain service constructs the "current state" of all domains in the local database by pulling events from the chain. Anyone can run an instance of the off-chain service and cannot do evil(falsify state information), which ensures the decentralization of the system.
+
+### Jobs that need to be done manually
+
+First we need the developers to describe the domain model of the demo system using DSL (DDDML).
+
+The domain model obtained in this step may look like the following.
+
+```yaml
+aggregates:
+  DomainName:
+    id:
+      name: DomainNameId
+      type: DomainNameId
+    properties:
+      ExpirationDate:
+        type: u64
+      Owner:
+        type: AccountAddress
+    methods:
+      Register:
+        parameters:
+          Account:
+            type: signer
+            eventPropertyName: Owner
+          RegistrationPeriod:
+            type: u64
+        eventName: Registered
+        isCreationCommand: true
+      Renew:
+        parameters:
+          Account:
+            type: signer
+          RenewPeriod:
+            type: u64
+        eventName: Renewed
+        
+valueObjects:
+  DomainNameId:
+    properties:
+      TopLevelDomain: # TLD
+        type: string
+      SecondLevelDomain: # SLD
+        type: string
+```
+
+* DomainNameId: A value object representing the domain name ID.
+
+* DomainName: An aggregate that represents a "domain name", with only one aggregate root of the same name(entity DomainName), which has two methods.
+  * Register, the method to register a domain name.
+  * Renew, the method to renew the domain name.
+
+The developers then need to write the business logic codes of the on-chain contracts.
+
+The directory and file structure of the codes of the on-chain contracts is as follows.
+
+```txt
+./move-contracts/src/modules
+├── domain-name # Codes of domain (domain name system)
+│   ├── DomainName.move # Data models, DomainNameId, DomainNameState, etc.
+│   ├── DomainNameAggregate.move # Glue codes for DomainName aggregation
+│   ├── DomainNameRegisterLogic.move # Business logic of domain registration
+│   ├── DomainNameRenewLogic.move # Business logic of domain renewal
+│   └── DomainNameScripts.move # Entry functions
+└── smt # Sparse Merkle Tree related codes
+    ├── SMTHash.move
+    ├── SMTProofUtils.move
+    ├── SMTProofs.move # Verify "state proof", update the State Root, etc.
+    ├── SMTUtils.move
+    └── SMTreeHasher.move
+```
+
+A special note here is that only these two files are the "business logic" codes that need to be written manually **if a code generation tool is available**.
+
+* DomainNameRegisterLogic.move
+* DomainNameRenewLogic.move
+  
+The rest of the codes are libraries that can be reused(codes in the smt directory) or codes that can be generated from the models(described by DSL).
+
+We need the developers to write the business logic(Move codes) for "`register` a domain name" manually as follows.
+
+```Move
+address 0x18351d311d32201149a4df2a9fc2db8a {
+module DomainNameRegisterLogic {
+//…
+
+public fun verify(
+    account: &signer,
+    _domain_name_id: &DomainName::DomainNameId,
+    registration_period: u64,
+): (
+    address, // Owner
+    u64, // RegistrationPeriod
+) {
+    let amount = Account::withdraw<STC::STC>(account, 1000000);
+    Account::deposit(DomainName::genesis_account(), amount);
+    let e_owner = Signer::address_of(account);
+    let e_registration_period = registration_period;
+    (e_owner, e_registration_period)
+}
+
+public fun mutate(
+    domain_name_id: &DomainName::DomainNameId,
+    owner: address,
+    registration_period: u64,
+): DomainName::DomainNameState {
+    let domain_name_state = DomainName::new_domain_name_state(
+        domain_name_id,
+        Timestamp::now_milliseconds() + registration_period,
+        owner,
+    );
+    domain_name_state
+}
+```
+
+* The `verify` function verifies the transaction parameters submitted by the client and returns the "event" properties if the verification passed. The event is emitted by DomainNameAggregate (using "cheap" in-chain event storage instead of expensive state storage).
+
+* `mutate` should be a pure function that takes an event argument and returns the "modified"(in this case, newly created) domain state.
+
+TBD...
 
 ### Portability of the demo system
 

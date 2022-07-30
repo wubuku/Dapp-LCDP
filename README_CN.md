@@ -8,9 +8,9 @@
 
 一个**真正的**低代码开发平台（Low-code development platform，LCDP），帮助开发者构建最大化地使用区块链作为技术基础设施的去中心化应用（Dapp）。
 
-一个低代码开发平台，让开发者可以极接近开发“传统”应用的体验，去构建极复杂的去中心化应用。
+一个低代码开发平台，让开发者可以极接近开发“传统”应用的体验，去构建极复杂的去中心化应用。很多“传统”应用的开发者已经建立了对各领域的深刻认知，也不乏软件开发经验，他们渴望尽快在去中心化世界中发挥他们的才华和智慧。
 
-在起步阶段，这个平台会优先支持构建运行在 Move 公链上 Dapp。
+我们知道事情不能一蹴而就。在起步阶段，这个平台会优先支持构建运行在 Move 公链上 Dapp。
 
 更长远的目标，平台不限制开发者使用何种编程语言去构建 Dapp，让开发者可以专注于“业务逻辑”的实现。于是“传统”应用的开发者也可以更便捷地享受到区块链发展的红利；而当前已经高度复杂的“传统”企业软件和 Web 2.0 互联网应用可以低成本地迁移到链上，成为去中心化的 Web 3.0 应用。
 
@@ -173,6 +173,127 @@ Demo 域名系统由三部分组成：
 - 客户端。客户端向链上合约提交交易前，先向链下服务请求获取实体（域名）的状态以及其状态证明。
 - 链上合约。链上合约不保存所有域名的“当前状态”，只保存着所有域名状态的SMT Root。链上合约执行交易时，先验证客户端提交过来的状态和状态证明，然后再执行业务逻辑、更新 SMT Root。
 - 链下服务。链下服务通过从链上拉取事件，在本地数据库中构建出所有域名的“当前状态”。任何人都可以运行链下服务的实例，且无法作恶（伪造状态信息），这就保证了系统的去中心化。
+
+### 需要开发者手动完成的工作
+
+首先我们需要开发者使用 DSL（DDDML）描述 Demo 系统的领域模型。
+
+这一步得到的领域模型可能如下：
+
+```yaml
+aggregates:
+  DomainName:
+    id:
+      name: DomainNameId
+      type: DomainNameId
+    properties:
+      ExpirationDate:
+        type: u64
+      Owner:
+        type: AccountAddress
+    methods:
+      Register:
+        parameters:
+          Account:
+            type: signer
+            eventPropertyName: Owner
+          RegistrationPeriod:
+            type: u64
+        eventName: Registered
+        isCreationCommand: true
+      Renew:
+        parameters:
+          Account:
+            type: signer
+          RenewPeriod:
+            type: u64
+        eventName: Renewed
+        
+valueObjects:
+  DomainNameId:
+    properties:
+      TopLevelDomain: # TLD
+        type: string
+      SecondLevelDomain: # SLD
+        type: string
+```
+
+- DomainNameId：一个描述域名 ID 的值对象。
+
+- DomainName：一个表示“域名”的聚合，聚合内只有一个同名的聚合根实体（DomainName），它有两个方法：
+
+- - Register，注册域名的方法。
+  - Renew，域名续费的方法。
+
+然后，开发者需要编写链上合约中的业务逻辑代码。
+
+这个 Demo 系统的链上合约代码的目录和文件结构如下：
+
+```txt
+./move-contracts/src/modules
+├── domain-name # 领域（域名系统）相关代码
+│   ├── DomainName.move # 数据模型，DomainNameId、DomainNameState 等
+│   ├── DomainNameAggregate.move # “域名”聚合的粘合代码
+│   ├── DomainNameRegisterLogic.move # 注册域名的业务逻辑
+│   ├── DomainNameRenewLogic.move # 域名续费的业务逻辑
+│   └── DomainNameScripts.move # 脚本（script）函数入口
+└── smt # Sparse Merkle Tree 相关代码，用于验证交易传入的状态证明
+    ├── SMTHash.move
+    ├── SMTProofUtils.move
+    ├── SMTProofs.move # 对证明（Proof）进行验证的方法
+    ├── SMTUtils.move
+    └── SMTreeHasher.move
+```
+
+这里需要特别说明的是，如果有代码生成工具，应该只有这两个文件是需要开发人员手动编写的“业务逻辑”代码：
+
+* DomainNameRegisterLogic.move
+* DomainNameRenewLogic.move
+
+除此之外的其他代码都是可以重用的库（smt 目录中的代码），或者是可以由（DSL描述的）模型生成的代码。
+
+我们需要开发人员手写“注册域名”的业务逻辑（Move 代码）大致如下：
+
+```Move
+address 0x18351d311d32201149a4df2a9fc2db8a {
+module DomainNameRegisterLogic {
+//…
+
+public fun verify(
+    account: &signer,
+    _domain_name_id: &DomainName::DomainNameId,
+    registration_period: u64,
+): (
+    address, // Owner
+    u64, // RegistrationPeriod
+) {
+    let amount = Account::withdraw<STC::STC>(account, 1000000);
+    Account::deposit(DomainName::genesis_account(), amount);
+    let e_owner = Signer::address_of(account);
+    let e_registration_period = registration_period;
+    (e_owner, e_registration_period)
+}
+
+public fun mutate(
+    domain_name_id: &DomainName::DomainNameId,
+    owner: address,
+    registration_period: u64,
+): DomainName::DomainNameState {
+    let domain_name_state = DomainName::new_domain_name_state(
+        domain_name_id,
+        Timestamp::now_milliseconds() + registration_period,
+        owner,
+    );
+    domain_name_state
+}
+```
+
+* verify 函数验证客户端提交的交易参数，如果验证通过，返回“事件”的属性。事件会被 DomainNameAggregate emit 出来（使用“廉价”的链上事件存储而不是昂贵的状态存储）。
+* mutate 应该是个纯函数，接受事件参数，返回“修改”后的（这里指新创建的）域名状态。
+
+
+
+【TBD】
 
 ### Demo 的可移植性
 
