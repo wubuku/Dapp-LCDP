@@ -69,7 +69,7 @@ A platform's potential is determined by its "core values". The core features exp
 
 For example, "configurable smart contract templates" certainly have the value of improving the efficiency of developers copying, pasting, and modifying "readymade codes" - if indeed There are "readymade codes". If a developer wants to make some innovative applications and there are no readymade "smart contract templates" available, then it won't be helpful; when multiple chains need to be supported, it is also a big burden for platform developers to write and maintain such a library of "smart contract templates" in different languages(Solidity, Move, etc.) for different chains. Moreover, "smart contracts" are often only the on-chain part of a application, and decentralized applications often require off-chain parts as well.
 
-There is also the "expression language", and although it may be difficult to implement this feature perfectly(the implementation priority can be lower) - for example, it requires developing compilers to compile the codes written in this expression language into intermediate codes that can be executed by the virtual machines(EVM, MoveVM, etc.) of each chain - with it, developers can use only this "expression language" to write business logic, and the developed application can run directly on different chains. There is no need to learn and use each chain's programming language, which greatly saves the cost of application development and porting.
+There is also the "expression language", and although it may be difficult to implement this feature perfectly(the implementation priority can be lower) - for example, it requires developing compilers to compile the codes written in this expression language into instructions that can be executed by the virtual machines(EVM, MoveVM, etc.) of each chain - with it, developers can use only this "expression language" to write business logic, and the developed application can run directly on different chains. There is no need to learn and use each chain's programming language, which greatly saves the cost of application development and porting.
 
 ## Technology architecture overview
 
@@ -114,11 +114,13 @@ DDDML takes this big solid step forward. You will see this in what follows.
 
 Because, "using DDD-style domain models to drive development" is really the thing we've done in the Web 2.0 era!
 
+![E-R Model/Retiaonl Model Driven Vs. Domain Model Driven](ERDrivenVsDDDModelDriven.png)
+
 Even when implementing a low-code platform for developing traditional enterprise applications, using DDD-style domain models to drive development is a very bold and innovative move. But the path is through, we have had a lot of valuable experience accumulated. We even published a thick monograph to share the lessons learned with developers.
 
 Here it is necessary to highlight the architect of our project: Jiefeng Yang.
 
-Mr. Yang has more than 20 years of software development experience, and is a well-deserved DDD expert, the creator of DDDML, and the author of the technical book "[Deep into DDD: Driving Complex Software Development by DSL](https://item.jd.com/12834017.html)".
+Mr. Yang has more than 20 years of software development experience, and is a well-deserved DDD expert, the creator of DDDML, and the author of the technical book "[Deep into DDD: Driving Complex Software Development by DSL](https://item.jd.com/12834017.html)". He is also one of the developers of several important ecological fundamental projects on Starcoin, the first Move public blockchain(some ecological projects on Starcoin are developed by anonymous teams). 
 
 It is in the book "Deep into DDD" that we details the design of DDDML, the native DSL for DDD, and its related development tool chain, and how to use them to solve various aches in complex software development process. This well-received bestseller was published in April 2021 and reprinted in September of the same year.
 
@@ -136,7 +138,7 @@ This is obviously a very challenging goal. Because different blockchains have di
 
 We know that Move(Move VM) did not have a data structure like Solidity(EVM)'s `Mapping` before; even if Move will support `Table`(`Mapping`) next, it should not be abused.
 
-The abuse of Mapping can cause the so-called blockchain state explosion problem. It is not a recommended practice to store large amounts of state data in Mapping on the L1 chain; they should be stored off-chain(outside the L1 chain), but at the same time they need to be verifiable and usable on-chain.
+The abuse of `Mapping` can cause the so-called "blockchain state explosion" problem. It is not a recommended practice to store large amounts of state data in Mapping on the L1 chain; they should be stored off-chain(outside the L1 chain), but at the same time they need to be verifiable and usable on-chain.
 
 So, building a domain name system on a Move chain without using `Table`(`Mapping`) is a development task of considerable complexity; next we can see the DDD and DSL-based development pattern(a low-code platform) can greatly reduce the burden of developers to complete this task.
 
@@ -174,6 +176,8 @@ The demo domain system consists of three parts.
 - Client. Before submitting a transaction to the on-chain contracts, the client requests the off-chain service to get the state of the entity(domain name) and its proof of state.
 - On-chain contracts. The on-chain contracts do not store the "current state" of all domain names, but only the SMT Root of all domain names. when the on-chain contract executes a transaction, it first verifies the state and the proof of state submitted by the client, and then executes the business logic and updates the SMT Root.
 - Off-chain service. The off-chain service constructs the "current state" of all domains in the local database by pulling events from the chain. Anyone can run an instance of the off-chain service and cannot do evil(falsify state information), which ensures the decentralization of the system.
+
+It is to be noted that the implementation codes of the demo actually use the `StateFullTransaction` pattern mentioned in the Starcoin Layer 2/Layered network solution. The DDD concept of "aggregation" is a very powerful thought weapon to determine the boundary of the state involved in a transaction.
 
 ### Jobs that need to be done manually
 
@@ -390,9 +394,11 @@ The demo off-chain service was written in Go. The directory and file structure o
 
 #### Client SDKs, front-end applications and more
 
-TBD...
+There is no doubt that we can create automation tools to generate Client SDKs for various languages from the DDD domain models, including Client Java SDK, Client JavaScript SDK, Client Go SDK, Client SDK of any programming language you can name.
 
-### Conclusion from the Demo
+Tools can even generate front-end applications with user interfaces directly from the domain model, including Web front-end applications(we really did this in the Web 2.0 era), mobile apps, command-line client applications, and more. Maybe you think this is too promising, well, at least you can believe that there is no problem scaffolding codes for front-end applications.
+
+#### Number of lines of codes in the demo
 
 We have done a rough count of the lines of codes for this demo system as follows.
 
@@ -413,11 +419,19 @@ SUM:                            50            801            615           6635
 -------------------------------------------------------------------------------
 ```
 
-TBD...
+### Conclusion from the Demo
 
 With this demo, we can draw the following rough conclusions.
 
 * The demo reveals that the low-code development pattern we advocate can efficiently develop Dapps running on different blockchains. Although we used the Move language(based on the Starcoin chain) for this proof-of-concept, it shows that it is also possible to use Solidity(based on Ethereum or other EVM-compatible chains), since Solidity also supports `struct` and Ethereum also provides event/log mechanisms. That is, the features of the Move language and the Starcoin chain that this proof-of-concept demo utilizes are also available on Ethereum.
+
+* "Low code" is a good way to shield the complexity of technology infrastructure utilization. The demo system stores states off-chain(outside the L1 chain) in order to solve the state explosion problem, which is a fairly complex architecture, but the application developer only needs to write business logic, and does not need to perceive the complexity of it at all.
+
+* The improvement in Dapp development efficiency with the "low code" approach is amazing. Using "low-code" development in the right place, development efficiency can be increased by more than ten times. Take the Demo system for example, the entire project has thousands of lines of code, but only two or three hundred lines of code need to be written manually by developers(after having the help of low-code platform in the near future).
+
+It is important to note that the demo actually does not fully show the power of low-code development. We can use the expression capability of DSL(DDDML) to build quite complex domain models: value objects(non-fundamental types) embedded in value objects; aggregations containing multiple(multi-level) entities, etc. In the development of real "traditional" applications, we have used DSL to build much more complex aggregate models than the demo.
+
+## Deliverables
 
 TBD...
 
