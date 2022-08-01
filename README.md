@@ -36,9 +36,11 @@ We believe that a true low-code development platform should have the following k
 
 We love the revolutionary innovation of "resource-oriented programming" in the Move language. We believe that the combinability of resources can greatly accelerate the pace of innovation in the Move ecosystem, making it more likely that killer applications will emerge that have never been seen on other public blockchains.
 
-But nevertheless, the overall development efficiency of a slightly complex Dapp today, even if the on-chain part (smart contracts) uses the Move language, is hardly satisfactory.
+But nevertheless, the overall development efficiency of a slightly complex Dapp today, even if the on-chain part(smart contracts) uses the Move language, is hardly satisfactory.
 
-On the other hand, the value of low-code development platforms for developing " traditional " applications has been well proven and widely recognized. Many developers of "traditional" applications have already established deep insights into various domains and have no lack of software development experiences, and they are eager to utilize their talent and intelligence in the decentralized world as soon as possible.
+On the other hand, the value of low-code development platforms for developing "traditional" applications has been well proven and widely recognized. Many developers of "traditional" applications have already established deep insights into various domains and have no lack of software development experiences, and they are eager to utilize their talent and intelligence in the decentralized world as soon as possible.
+
+In particular, we would like to highlight the enormous imagination that can be raised by the combination of low-code platforms and DAOs. DAOs, as "legal persons" existing in the blockchain world, are bound to require more "business activities" to be on-chain. The growth of DAOs will amplify the demands for blockchain "business applications". There is an urgent need to reduce the development cost of decentralized versions of "business applications" and improve development efficiency. Traditional low-code platforms are already particularly well suited for rapid development of traditional "enterprise applications", and we believe this will be the case in the Web3 era.
 
 In our opinion, a "true" low-code platform has yet to be born in the decentralized world. It is all up to us to deliver.
 
@@ -64,7 +66,7 @@ For example, see how OutSystems does it?
 
 OutSystems uses both E-R models and relational(data) models; some enterprise application development platforms use only one or the other.
 
-There is a fairly direct correspondence between the concepts used by the E-R models and the relational models, so their modeling results(the generated codes) can easily run on the traditional enterprise software technology infrastructures - SQL databases.But it's hard for them to run on brand new technology infrastructures such as blockchains - where the dominant smart contract platforms and "decentralized ledgers" are constructed too far from traditional SQL databases.
+There is a fairly direct correspondence between the concepts used by the E-R models and the relational models, so their modeling results(the generated codes) can easily run on the traditional enterprise software technology infrastructures - SQL databases. But it's hard for them to run on brand new technology infrastructures such as blockchains - where the dominant smart contract platforms and "decentralized ledgers" are constructed too far from traditional SQL databases.
 
 Clearly, the development of a "true" low-code platform requires long-term accumulation of skills and experience, and the technology routes used in traditional enterprise application low-code platforms make them difficult to be ported to the entirely new space of Dapp development.
 
@@ -131,7 +133,7 @@ Here it is necessary to highlight the architect of our project: Jiefeng Yang.
 
 Mr. Yang has more than 20 years of software development experience, and is a well-deserved DDD expert, the creator of DDDML, and the author of the technical book "[Deep into DDD: Driving Complex Software Development by DSL](https://item.jd.com/12834017.html)". He is also one of the developers of several important ecological fundamental projects on Starcoin, the first Move public blockchain(some ecological projects on Starcoin are developed by anonymous teams). 
 
-It is in the book "Deep into DDD" that we details the design of DDDML, the native DSL for DDD, and its related development tool chain, and how to use them to solve various aches in complex software development process. This well-received bestseller was published in April 2021 and reprinted in September of the same year.
+It is in the book "Deep into DDD" that we detail the design of DDDML, the native DSL for DDD, and its related development tool chain, and how to use them to solve various aches in complex software development processes. This well-received bestseller was published in April 2021 and reprinted in September of the same year.
 
 ![The Book "Deep into DDD"](TheBookDeepIntoDDD.png)
 
@@ -459,6 +461,10 @@ TBD...
 TBD...
 
 ## Key risks
+
+TBD...
+
+## Financial and legal information
 
 TBD...
 
