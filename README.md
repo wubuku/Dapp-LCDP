@@ -105,7 +105,7 @@ The idea is that there should be a domain modeling language that can be used to 
 
 This language should be a DSL that can be adopted by visualization tools as well as easy for humans to read and write.
 
-With the domain model described by this DSL as the core, we make a tool chain to generate implementation codes for various parts of the application from the model and then run the application on various technical infrastructures.
+With the domain models described by this DSL as the core, we make a tool chain to generate implementation codes for various parts of the application from the model and then run the application on various technical infrastructures.
 
 ![Domain Models As the Core](DomainModelsAsTheCore.png)
 
@@ -192,7 +192,7 @@ It is to be noted that the implementation codes of the demo actually use the `St
 
 ### Jobs that need to be done manually
 
-First we need the developers to describe the domain model of the demo system using DSL (DDDML).
+First we need the developers to describe the domain model of the demo system using DSL(DDDML).
 
 The domain model obtained in this step may look like the following.
 
@@ -361,7 +361,7 @@ The demo off-chain service was written in Go. The directory and file structure o
 ```txt
 ./off-chain-service
 ├── README.md
-├── client # Client Go SDK for Domain Name System
+├── client # Go Client SDK for Domain Name System
 │   ├── client.go
 │   └── client_test.go # Unit tests
 ├── contract # Query interfaces of on-chain contracts
@@ -405,9 +405,9 @@ The demo off-chain service was written in Go. The directory and file structure o
 
 #### Client SDKs, front-end applications and more
 
-There is no doubt that we can create automation tools to generate Client SDKs for various languages from the DDD domain models, including Client Java SDK, Client JavaScript SDK, Client Go SDK, Client SDK of any programming language you can name.
+There is no doubt that we can create automation tools to generate Client SDKs for various languages from the DDD domain models, including Client SDK for Java, Client SDK for JavaScript, Client SDK for Go, Client SDK for any programming language you can name.
 
-Tools can even generate front-end applications with user interfaces directly from the domain model, including Web front-end applications(we really did this in the Web 2.0 era), mobile apps, command-line client applications, and more. Maybe you think this is too promising, well, at least you can believe that there is no problem scaffolding codes for front-end applications.
+Tools can even generate front-end applications with user interfaces directly from the domain models, including Web front-end applications(we really did this in the Web 2.0 era), mobile apps, command-line client applications, and more. Maybe you think this is too promising, well, at least you can believe that there is no problem scaffolding codes for front-end applications.
 
 #### Number of lines of codes in the demo
 

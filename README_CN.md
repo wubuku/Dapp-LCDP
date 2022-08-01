@@ -359,7 +359,7 @@ Demo 系统的链下服务的代码是使用 Go 编写的。项目的目录和�
 ```txt
 ./off-chain-service
 ├── README.md
-├── client # 域名系统的 Client Go SDK
+├── client # 域名系统的 Client SDK for Go
 │   ├── client.go
 │   └── client_test.go # 单元测试代码
 ├── contract # 链上合约的查询接口
@@ -402,7 +402,7 @@ Demo 系统的链下服务的代码是使用 Go 编写的。项目的目录和�
 
 #### 各种客户端 SDK、前端应用以及更多
 
-毫无疑问，我们完全可以制造自动化的工具，从 DDD 领域模型生成各种语言的 Client SDK，包括 Client Java SDK、Client JavaScript SDK、Client Go SDK，任意你能想到的编程语言的 Client SDK。
+毫无疑问，我们完全可以制造自动化的工具，从 DDD 领域模型生成各种语言的 Client SDK，包括 Java Client SDK、JavaScript Client SDK、Go Client SDK，任意你能想到的编程语言的 Client SDK。
 
 工具甚至能直接从领域模型生成有用户界面的前端应用，包括 Web 前端应用（这个在 Web 2.0 时代我们真的做过）、手机 App、命令行客户端应用等。也许你觉得这过于乐观，那么，最少你可以相信生成前端应用的脚手架代码是毫无问题的。
 
@@ -441,7 +441,7 @@ SUM:                            50            801            615           6635
 
 ### 第一阶段
 
-我们会创造一个命令行工具或者工具集。工具最少可以帮助开发者从领域模型生成链上的 Move 合约（Dapp 的链上部分）、链下服务（使用 Java 或 Go 语言编写），甚至生成更多的东西，比如 Client JavaScript SDK、有用户界面的 Web 前端应用的脚手架代码等。 
+我们会创造一个命令行工具或者工具集。工具最少可以帮助开发者从领域模型生成链上的 Move 合约（Dapp 的链上部分）、链下服务（使用 Java 或 Go 语言编写），甚至生成更多的东西，比如 JavaScript Client SDK、有用户界面的 Web 前端应用的脚手架代码等。 
 
 ### 第二阶段
 
