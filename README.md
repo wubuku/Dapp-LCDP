@@ -8,13 +8,13 @@ English | [中文](README_CN.md)
 
 A **true** Low-code development platform(LCDP) that helps developers build decentralized applications(Dapps) that maximize the use of blockchains as technical infrastructure.
 
-A low-code development platform that allows developers to build extremely complex decentralized applications with experiences that are very close to developing "traditional" applications. Many developers of "traditional" applications have already established deep insights into various domains and have no lack of software development experiences, and they are eager to utilize their talent and intelligence in the decentralized world as soon as possible.
+A low-code development platform that allows developers to build extremely complex decentralized applications with experiences that are very close to developing "traditional" applications.
 
-We know things can't be done overnight. In the initial phase, the platform will prioritize support for building Dapps running on the Move public blockchain.
+We know things can't be done overnight. In the initial phase, the platform will prioritize support for building Dapps running on Move public blockchains.
 
 In the longer term, the platform does not restrict developers to use any programming language to build Dapps, allowing them to focus on the implementation of the "business logic". Thus, developers of "traditional" applications can more easily enjoy the dividends of blockchain development; while "traditional" enterprise software and Web 2.0 Internet applications, which are already highly complex, can be migrated onto blockchains at low cost and become decentralized Web 3.0 applications.
 
-## What is a "true" low-code development platform
+### What is a "true" low-code development platform
 
 "What is this 'true' low-code development platform you speak of?"
 
@@ -32,6 +32,15 @@ We believe that a true low-code development platform should have the following k
 
 * **Applications are open to integration and are extensible**. Applications developed by low-code platforms should have open APIs as well as the ability to use external APIs and be extensible using general-purpose languages.
 
+## Value proposition to the Move blockchain ecosystem
+
+We love the revolutionary innovation of "resource-oriented programming" in the Move language. We believe that the combinability of resources can greatly accelerate the pace of innovation in the Move ecosystem, making it more likely that killer applications will emerge that have never been seen on other public blockchains.
+
+But nevertheless, the overall development efficiency of a slightly complex Dapp today, even if the on-chain part (smart contracts) uses the Move language, is hardly satisfactory.
+
+On the other hand, the value of low-code development platforms for developing " traditional " applications has been well proven and widely recognized. Many developers of "traditional" applications have already established deep insights into various domains and have no lack of software development experiences, and they are eager to utilize their talent and intelligence in the decentralized world as soon as possible.
+
+In our opinion, a "true" low-code platform has yet to be born in the decentralized world. It is all up to us to deliver.
 
 ## Current state of low-code development platforms
 
@@ -136,11 +145,11 @@ In the grand scheme of things, we are actually trying to explore a development m
 
 This is obviously a very challenging goal. Because different blockchains have different characteristics, can our low-code platform be designed to effectively meet the challenges posed by the diversity of technical infrastructures? We certainly have great confidence in this, and we will demonstrate this by developing a demo domain system.
 
-We know that Move(Move VM) did not have a data structure like Solidity(EVM)'s `Mapping` before; even if Move will support `Table`(`Mapping`) next, it should not be abused.
+We know that Move(Move VM) did not have a data structure like Solidity(EVM)'s `mapping` before; even if Move will support `table`(`mapping`) next, it should not be abused.
 
-The abuse of `Mapping` can cause the so-called "blockchain state explosion" problem. It is not a recommended practice to store large amounts of state data in Mapping on the L1 chain; they should be stored off-chain(outside the L1 chain), but at the same time they need to be verifiable and usable on-chain.
+The abuse of `mapping` can cause the so-called "blockchain state explosion" problem. It is not a recommended practice to store large amounts of state data in Mapping on the L1 chain; they should be stored off-chain(outside the L1 chain), but at the same time they need to be verifiable and usable on-chain.
 
-So, building a domain name system on a Move chain without using `Table`(`Mapping`) is a development task of considerable complexity; next we can see the DDD and DSL-based development pattern(a low-code platform) can greatly reduce the burden of developers to complete this task.
+So, building a domain name system on a Move chain without using `table`(`mapping`) is a development task of considerable complexity; next we can see the DDD and DSL-based development pattern(a low-code platform) can greatly reduce the burden of developers to complete this task.
 
 ### How to prove it
 
@@ -432,6 +441,20 @@ With this demo, we can draw the following rough conclusions.
 It is important to note that the demo actually does not fully show the power of low-code development. We can use the expression capability of DSL(DDDML) to build quite complex domain models: value objects(non-fundamental types) embedded in value objects; aggregations containing multiple(multi-level) entities, etc. In the development of real "traditional" applications, we have used DSL to build much more complex aggregate models than the demo.
 
 ## Deliverables
+
+### Phase I
+
+TBD...
+
+### Phase II
+
+TBD...
+
+### Phase III
+
+TBD...
+
+### Phase IV
 
 TBD...
 
