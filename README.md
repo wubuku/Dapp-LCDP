@@ -446,11 +446,11 @@ It is important to note that the demo actually does not fully show the power of 
 
 ### Phase I
 
-TBD...
+We will create a command line tool or a set of tools. At a minimum, the tool will help developers generate on-chain Move contracts (the on-chain part of a Dapp), off-chain services (written in Java or Go), and even more from domain models, such as Client JavaScript SDKs, scaffolding codes of web front-end applications with user interfaces, etc.
 
 ### Phase II
 
-TBD...
+We will move the functionality of the command line tools created in Phase I to the cloud, where developers can simply open their browsers and use them. We expect to provide a simple Web IDE for developers to write domain models, generate Dapp applications "with one click", write business logic codes, and deploy the applications to a test environment in the cloud.
 
 ### Phase III
 
