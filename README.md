@@ -129,9 +129,7 @@ Because, "using DDD-style domain models to drive development" is really the thin
 
 Even when implementing a low-code platform for developing traditional enterprise applications, using DDD-style domain models to drive development is a very bold and innovative move. But the path is through, we have had a lot of valuable experience accumulated. We even published a thick monograph to share the lessons learned with developers.
 
-Here it is necessary to highlight the architect of our project: Jiefeng Yang.
-
-Mr. Yang has more than 20 years of software development experience, and is a well-deserved DDD expert, the creator of DDDML, and the author of the technical book "[Deep into DDD: Driving Complex Software Development by DSL](https://item.jd.com/12834017.html)". He is also one of the developers of several important ecological fundamental projects on Starcoin, the first Move public blockchain(some ecological projects on Starcoin are developed by anonymous teams). 
+Here it is necessary to highlight the architect of our project: Jiefeng Yang. He has more than 20 years of software development experience, and is a well-deserved DDD expert, the creator of DDDML, and the author of the technical book "[Deep into DDD: Driving Complex Software Development by DSL](https://item.jd.com/12834017.html)". He is also one of the developers of, or has provided key technical support for, several important ecological fundamental projects on Starcoin, the first Move public blockchain(some ecological projects on Starcoin are developed by anonymous teams). 
 
 It is in the book "Deep into DDD" that we detail the design of DDDML, the native DSL for DDD, and its related development tool chain, and how to use them to solve various aches in complex software development processes. This well-received bestseller was published in April 2021 and reprinted in September of the same year.
 
@@ -451,20 +449,4 @@ We will create a command line tool or a set of tools. At a minimum, the tool wil
 ### Phase II
 
 We will move the functionality of the command line tools created in Phase I to the cloud, where developers can simply open their browsers and use them. We expect to provide a simple Web IDE for developers to write domain models, generate Dapp applications "with one click", write business logic codes, and deploy the applications to a test environment in the cloud.
-
-### Phase III
-
-TBD...
-
-### Phase IV
-
-TBD...
-
-## Key risks
-
-TBD...
-
-## Financial and legal information
-
-TBD...
 
