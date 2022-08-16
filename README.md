@@ -78,7 +78,7 @@ As for the existing Dapp "low-code" platforms, "They don't have those features, 
 
 A platform's potential is determined by its "core values". The core features expected of a professional low-code platform, such as model-driven, expression language, have values that are difficult to replace with other solutions that try to "bypass" them.
 
-For example, "configurable smart contract templates" certainly have the value of improving the efficiency of developers copying, pasting, and modifying "readymade codes" - if indeed There are "readymade codes". If a developer wants to make some innovative applications and there are no readymade "smart contract templates" available, then it won't be helpful; when multiple chains need to be supported, it is also a big burden for platform developers to write and maintain such a library of "smart contract templates" in different languages(Solidity, Move, etc.) for different chains. Moreover, "smart contracts" are often only the on-chain part of a application, and decentralized applications often require off-chain parts as well.
+For example, "configurable smart contract templates" certainly have the value of improving the efficiency of developers copying, pasting, and modifying "readymade codes" - if indeed there are "readymade codes". If a developer wants to make some innovative applications and there are no readymade "smart contract templates" available, then it won't be helpful; when multiple chains need to be supported, it is also a big burden for platform developers to write and maintain such a library of "smart contract templates" in different languages(Solidity, Move, etc.) for different chains. Moreover, "smart contracts" are often only the on-chain part of an application, and decentralized applications often require off-chain parts as well.
 
 There is also the "expression language", and although it may be difficult to implement this feature perfectly(the implementation priority can be lower) - for example, it requires developing compilers to compile the codes written in this expression language into instructions that can be executed by the virtual machines(EVM, MoveVM, etc.) of each chain - with it, developers can use only this "expression language" to write business logic, and the developed application can run directly on different chains. There is no need to learn and use each chain's programming language, which greatly saves the cost of application development and porting.
 
@@ -105,7 +105,7 @@ The idea is that there should be a domain modeling language that can be used to 
 
 This language should be a DSL that can be adopted by visualization tools as well as easy for humans to read and write.
 
-With the domain models described by this DSL as the core, we make a tool chain to generate implementation codes for various parts of the application from the model and then run the application on various technical infrastructures.
+With the domain models described by this DSL as the core, we make a toolchain to generate the implementation codes for various parts of applications from models and then run the applications on various technical infrastructures.
 
 ![Domain Models As the Core](DomainModelsAsTheCore.png)
 
@@ -131,7 +131,7 @@ Even when implementing a low-code platform for developing traditional enterprise
 
 Here it is necessary to highlight the architect of our project: Jiefeng Yang. He has more than 20 years of software development experience, and is a well-deserved DDD expert, the creator of DDDML, and the author of the technical book "[Deep into DDD: Driving Complex Software Development by DSL](https://item.jd.com/12834017.html)". He is also one of the developers of, or has provided key technical support for, several important ecological fundamental projects on Starcoin, the first Move public blockchain(some ecological projects on Starcoin are developed by anonymous teams). 
 
-It is in the book "Deep into DDD" that we detail the design of DDDML, the native DSL for DDD, and its related development tool chain, and how to use them to solve various aches in complex software development processes. This well-received bestseller was published in April 2021 and reprinted in September of the same year.
+It is in the book "Deep into DDD" that we detail the design of DDDML, the native DSL for DDD, and its related development toolchain, and how to use them to solve various aches in complex software development processes. This well-received bestseller was published in April 2021 and reprinted in September of the same year.
 
 ![The Book "Deep into DDD"](TheBookDeepIntoDDD.png)
 
@@ -434,19 +434,26 @@ With this demo, we can draw the following rough conclusions.
 
 * The demo reveals that the low-code development pattern we advocate can efficiently develop Dapps running on different blockchains. Although we used the Move language(based on the Starcoin chain) for this proof-of-concept, it shows that it is also possible to use Solidity(based on Ethereum or other EVM-compatible chains), since Solidity also supports `struct` and Ethereum also provides event/log mechanisms. That is, the features of the Move language and the Starcoin chain that this proof-of-concept demo utilizes are also available on Ethereum.
 
-* "Low code" is a good way to shield the complexity of technology infrastructure utilization. The demo system stores states off-chain(outside the L1 chain) in order to solve the state explosion problem, which is a fairly complex architecture, but the application developer only needs to write business logic, and does not need to perceive the complexity of it at all.
+* "Low-code" is a good way to shield the complexity of technology infrastructure utilization. The demo system stores states off-chain(outside the L1 chain) in order to solve the state explosion problem, which is a fairly complex architecture, but the application developer only needs to write business logic, and does not need to perceive the complexity of it at all.
 
-* The improvement in Dapp development efficiency with the "low code" approach is amazing. Using "low-code" development in the right place, development efficiency can be increased by more than ten times. Take the Demo system for example, the entire project has thousands of lines of code, but only two or three hundred lines of code need to be written manually by developers(after having the help of low-code platform in the near future).
+* The improvement in Dapp development efficiency with the "low-code" approach is amazing. Using "low-code" development in the right place, development efficiency can be increased by more than ten times. Take the Demo system for example, the entire project has thousands of lines of code, but only two or three hundred lines of code need to be written manually by developers(after having the help of low-code platform in the near future).
 
 It is important to note that the demo actually does not fully show the power of low-code development. We can use the expression capability of DSL(DDDML) to build quite complex domain models: value objects(non-fundamental types) embedded in value objects; aggregations containing multiple(multi-level) entities, etc. In the development of real "traditional" applications, we have used DSL to build much more complex aggregate models than the demo.
 
 ## Deliverables
 
-### Phase I
+This is certainly an ambitious project, but it doesn't make too much sense to discuss longer-term plans; we started by setting two small milestones for the project.
+
+### Milestone I
 
 We will create a command line tool or a set of tools. At a minimum, the tool will help developers generate on-chain Move contracts (the on-chain part of a Dapp), off-chain services (written in Java or Go), and even more from domain models, such as Client JavaScript SDKs, scaffolding codes of web front-end applications with user interfaces, etc.
 
-### Phase II
+It is expected that this milestone can be reached by two persons working for three months after the project starts.
 
-We will move the functionality of the command line tools created in Phase I to the cloud, where developers can simply open their browsers and use them. We expect to provide a simple Web IDE for developers to write domain models, generate Dapp applications "with one click", write business logic codes, and deploy the applications to a test environment in the cloud.
+### Milestone II
+
+We will move the functionality of the command line tools created in Milestone I to the cloud, where developers can simply open their browsers and use them. We expect to provide a simple Web IDE for developers to write domain models, generate Dapp applications "with one click", write business logic codes, and deploy the applications to a test environment in the cloud.
+
+It is expected that after reaching the first milestone, two persons working for three months can reach this second milestone.
+
 
