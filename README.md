@@ -6,9 +6,9 @@ English | [中文](README_CN.md)
 
 ## What we want to do
 
-A **true** Low-code development platform(LCDP) that helps developers build decentralized applications(Dapps) that maximize the use of blockchains as technical infrastructure.
+A **true** Low-code development platform(LCDP) that allows developers to build extremely complex decentralized applications(Dapps) efficiently with experiences that are very close to developing "traditional" applications.
 
-A low-code development platform that allows developers to build extremely complex decentralized applications with experiences that are very close to developing "traditional" applications.
+A low-code development platform that helps developers build decentralized applications that maximize the use of blockchains as technical infrastructure.
 
 We know things can't be done overnight. In the initial phase, the platform will prioritize support for building Dapps running on Move public blockchains.
 
@@ -32,6 +32,8 @@ We believe that a true low-code development platform should have the following k
 
 * **Applications are open to integration and are extensible**. Applications developed by low-code platforms should have open APIs as well as the ability to use external APIs and be extensible using general-purpose languages.
 
+In our opinion, a "true" low-code platform has yet to be born in the decentralized world. It is all up to us to deliver.
+
 ## Value proposition to the Move blockchain ecosystem
 
 We love the revolutionary innovation of "resource-oriented programming" in the Move language. We believe that the combinability of resources can greatly accelerate the pace of innovation in the Move ecosystem, making it more likely that killer applications will emerge that have never been seen on other public blockchains.
@@ -41,8 +43,6 @@ But nevertheless, the overall development efficiency of a slightly complex Dapp 
 On the other hand, the value of low-code development platforms for developing "traditional" applications has been well proven and widely recognized. Many developers of "traditional" applications have already established deep insights into various domains and have no lack of software development experiences, and they are eager to utilize their talent and intelligence in the decentralized world as soon as possible.
 
 In particular, we would like to highlight the enormous imagination that can be raised by the combination of low-code platforms and DAOs. DAOs, as "legal persons" existing in the blockchain world, are bound to require more "business activities" to be on-chain. The growth of DAOs will amplify the demands for blockchain "business applications". There is an urgent need to reduce the development cost of decentralized versions of "business applications" and improve development efficiency. Traditional low-code platforms are already particularly well suited for rapid development of traditional "enterprise applications", and we believe this will be the case in the Web3 era.
-
-In our opinion, a "true" low-code platform has yet to be born in the decentralized world. It is all up to us to deliver.
 
 ## Current state of low-code development platforms
 
@@ -56,7 +56,7 @@ Unfortunately, by the rigorous "true" low-code criteria described above, we have
 
 "Is it so hard? Why don't they do it?"
 
-### The “Model-driven” of enterprise application LCDPs
+### The “model-driven” of enterprise application LCDPs
 
 Traditional enterprise application development platforms(including low-code platforms) are basically "driven" by the E-R(Entity-Relationship) models and/or relational models(the models used in SQL databases).
 
@@ -73,6 +73,8 @@ Clearly, the development of a "true" low-code platform requires long-term accumu
 As for the existing Dapp "low-code" platforms, "They don't have those features, but then what does it matter?"
 
 ### The importance of core values
+
+The development of a true low-code - especially adhering to model-driven - is a hard way to go. The problem with existing Dapp “low-code” platforms is that they always try to take shortcuts.
 
 > Never forget the original intention, the only way to get to the end.
 
